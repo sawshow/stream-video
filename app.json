@@ -9,7 +9,7 @@
         "pyrogram"
     ],
     "website": "https://t.me/artamenggabut",
-    "repository": "https://github.com/sawshow/video-stream",
+    "repository": "https://github.com/sawshow/stream-video",
     "success_url": "https://t.me/apaanppk",
     "env": {
         "API_ID": {
