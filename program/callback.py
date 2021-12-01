@@ -43,12 +43,6 @@ async def cbstart(_, query: CallbackQuery):
                         "📣 Official Channel", url=f"https://t.me/{UPDATES_CHANNEL}"
                     ),
                 ],
-  
-  
-
-
-
-                ],
             ]
         ),
         disable_web_page_preview=True,
