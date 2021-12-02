@@ -50,10 +50,10 @@ async def ytdl(link):
         return 0, stderr.decode()
 
 
-@Client.on_message(command(["mplay", f"mplay@{BOT_USERNAME}"]) & other_filters)
+@Client.on_message(command(["play", f"play@{BOT_USERNAME}"]) & other_filters)
 async def play(c: Client, m: Message):
-    replied = m.reply_to_message
-    chat_id = m.chat.id
+    replied = message.reply_to_message
+    chat_id = message.chat.id
     keyboard = InlineKeyboardMarkup(
         [
             [
@@ -62,45 +62,45 @@ async def play(c: Client, m: Message):
             ]
         ]
     )
-    if m.sender_chat:
-        return await m.reply_text("you're an __Anonymous Admin__ !\n\n» revert back to user account from admin rights.")
+    if message.sender_chat:
+        return await message.reply_text("you're an __Anonymous Admin__ !\n\n» revert back to user account from admin rights.")
     try:
         aing = await c.get_me()
     except Exception as e:
-        return await m.reply_text(f"error:\n\n{e}")
+        return await message.reply_text(f"error:\n\n{e}")
     a = await c.get_chat_member(chat_id, aing.id)
     if a.status != "administrator":
-        await m.reply_text(
+        await message.reply_text(
             f"💡 To use me, I need to be an **Administrator** with the following **permissions**:\n\n» ❌ __Delete messages__\n» ❌ __Add users__\n» ❌ __Manage video chat__\n\nData is **updated** automatically after you **promote me**"
         )
         return
     if not a.can_manage_voice_chats:
-        await m.reply_text(
+        await message.reply_text(
             "missing required permission:" + "\n\n» ❌ __Manage video chat__"
         )
         return
     if not a.can_delete_messages:
-        await m.reply_text(
+        await message.reply_text(
             "missing required permission:" + "\n\n» ❌ __Delete messages__"
         )
         return
     if not a.can_invite_users:
-        await m.reply_text("missing required permission:" + "\n\n» ❌ __Add users__")
+        await message.reply_text("missing required permission:" + "\n\n» ❌ __Add users__")
         return
     try:
         ubot = (await user.get_me()).id
         b = await c.get_chat_member(chat_id, ubot)
         if b.status == "kicked":
-            await m.reply_text(
+            await message.reply_text(
                 f"@{ASSISTANT_NAME} **is banned in group** {m.chat.title}\n\n» **unban the userbot first if you want to use this bot.**"
             )
             return
     except UserNotParticipant:
-        if m.chat.username:
+        if messagemessagemessage.chat.username:
             try:
-                await user.join_chat(m.chat.username)
+                await user.join_chat(messagemessage.chat.username)
             except Exception as e:
-                await m.reply_text(f"❌ **userbot failed to join**\n\n**reason**: `{e}`")
+                await message.reply_text(f"❌ **userbot failed to join**\n\n**reason**: `{e}`")
                 return
         else:
             try:
@@ -113,7 +113,7 @@ async def play(c: Client, m: Message):
             except UserAlreadyParticipant:
                 pass
             except Exception as e:
-                return await m.reply_text(
+                return await message.reply_text(
                     f"❌ **userbot failed to join**\n\n**reason**: `{e}`"
                 )
     if replied:
@@ -134,7 +134,7 @@ async def play(c: Client, m: Message):
             if chat_id in QUEUE:
                 pos = add_to_queue(chat_id, songname, dl, link, "Audio", 0)
                 await suhu.delete()
-                await m.reply_photo(
+                await message.reply_photo(
                     photo=f"{IMG_1}",
                     caption=f"💡 **Track added to queue »** `{pos}`\n\n🏷 **Name:** [{songname}]({link})\n💭 **Chat:** `{chat_id}`\n🎧 **Request by:** {m.from_user.mention()}",
                     reply_markup=keyboard,
